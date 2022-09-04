@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>7.call、bind、apply的区别 · GitBook</title>
+        <title>8.防抖和节流 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="8.防抖和节流.html" />
+    <link rel="next" href="9.深拷贝、浅拷贝的区别？如何实现深拷贝和浅拷贝？.html" />
     
     
-    <link rel="prev" href="6.Null和undefined的区别.html" />
+    <link rel="prev" href="7.call、bind、apply的区别.html" />
     
 
     </head>
@@ -180,7 +180,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.8" data-path="7.call、bind、apply的区别.html">
+        <li class="chapter " data-level="1.8" data-path="7.call、bind、apply的区别.html">
             
                 <a href="7.call、bind、apply的区别.html">
             
@@ -193,7 +193,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.9" data-path="8.防抖和节流.html">
+        <li class="chapter active" data-level="1.9" data-path="8.防抖和节流.html">
             
                 <a href="8.防抖和节流.html">
             
@@ -366,7 +366,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >7.call、bind、apply的区别</a>
+        <a href=".." >8.防抖和节流</a>
     </h1>
 </div>
 
@@ -381,48 +381,90 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="7call&#x3001;bind&#x3001;apply&#x7684;&#x533A;&#x522B;">7.call&#x3001;bind&#x3001;apply&#x7684;&#x533A;&#x522B;</h1>
-<h2 id="1&#x76F8;&#x540C;&#x70B9;">1.&#x76F8;&#x540C;&#x70B9;</h2>
-<ul>
-<li>&#x90FD;&#x662F;&#x6539;&#x53D8;this&#x6307;&#x5411;</li>
-<li>&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x90FD;&#x662F;this&#x8981;&#x6307;&#x5411;&#x7684;&#x5BF9;&#x8C61;</li>
-<li>&#x90FD;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x540E;&#x7EED;&#x53C2;&#x6570;&#x4F20;&#x53C2;<h2 id="2&#x533A;&#x522B;">2.&#x533A;&#x522B;</h2>
-</li>
-<li>call&#x548C;bind&#x7684;&#x53C2;&#x6570;&#x662F;&#x4F9D;&#x6B21;&#x4F20;&#x53C2;&#xFF0C;&#x4E00;&#x4E00;&#x5BF9;&#x5E94;&#x7684;</li>
-<li>apply&#x53EA;&#x6709;&#x4E24;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;&#x6570;&#x5B57;</li>
-<li>call&#x548C;apply&#x90FD;&#x662F;&#x5BF9;&#x51FD;&#x6570;&#x8FDB;&#x884C;&#x76F4;&#x63A5;&#x8C03;&#x7528;</li>
-<li>bind&#x6539;&#x53D8;this&#x6307;&#x5411;&#x540E;&#x4E0D;&#x4F1A;&#x7ACB;&#x5373;&#x6267;&#x884C;&#xFF0C;&#x800C;&#x662F;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x6C38;&#x4E45;&#x6539;&#x53D8;this&#x6307;&#x5411;&#x7684;&#x51FD;&#x6570;</li>
-</ul>
-<pre><code class="lang-js"><span class="hljs-keyword">var</span> a = {
-    name : <span class="hljs-string">&apos;lwx&apos;</span>,
-    age : <span class="hljs-number">18</span>,
-    sex : <span class="hljs-string">&apos;&#x7537;&apos;</span>,
-    hobby : <span class="hljs-string">&apos;&#x5199;&#x4EE3;&#x7801;&apos;</span>,
-    getInfo:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">sex, hobby</span>) </span>{
-        <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.name, <span class="hljs-keyword">this</span>.age, sex, hobby)
-    }
-}
-
-<span class="hljs-keyword">var</span> b = {
-    name : <span class="hljs-string">&apos;lwxx&apos;</span>,
-    age : <span class="hljs-string">&apos;24&apos;</span>,
-}
-a.getInfo.call(b,<span class="hljs-string">&apos;&#x5973;&apos;</span>,<span class="hljs-string">&apos;&#x5B66;&#x4E60;&apos;</span>)
-a.getInfo.apply(b,[<span class="hljs-string">&apos;&#x5973;&apos;</span>,<span class="hljs-string">&apos;&#x5B66;&#x4E60;&apos;</span>])
-
-a.getInfo.bind(b,<span class="hljs-string">&apos;&#x5973;&apos;</span>,<span class="hljs-string">&apos;&#x5B66;&#x4E60;&apos;</span>)()
-a.getInfo.bind(b)(<span class="hljs-string">&apos;&#x5973;&apos;</span>,<span class="hljs-string">&apos;&#x5B66;&#x4E60;&apos;</span>)
+                                <h1 id="8&#x9632;&#x6296;&#x548C;&#x8282;&#x6D41;">8.&#x9632;&#x6296;&#x548C;&#x8282;&#x6D41;</h1>
+<h2 id="html&#x4EE3;&#x7801;">html&#x4EE3;&#x7801;</h2>
+<pre><code class="lang-html">    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;btn&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;&#x9632;&#x6296;&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;btns&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;&#x8282;&#x6D41;&quot;</span>&gt;</span>
 </code></pre>
-<h2 id="3&#x5B9E;&#x73B0;bind&#x65B9;&#x6CD5;">3.&#x5B9E;&#x73B0;bind&#x65B9;&#x6CD5;</h2>
-<pre><code class="lang-js"> <span class="hljs-built_in">Function</span>.prototype.bind = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
-    <span class="hljs-keyword">var</span> _this = <span class="hljs-keyword">this</span>;
-    <span class="hljs-keyword">var</span> context = <span class="hljs-built_in">arguments</span>[<span class="hljs-number">0</span>];
-    <span class="hljs-keyword">var</span> arg = [].slice.call(<span class="hljs-built_in">arguments</span>,<span class="hljs-number">1</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-        arg = [].concat.apply(arg,<span class="hljs-built_in">arguments</span>);
-        _this.apply(context, arg)
+<h2 id="js&#x4EE3;&#x7801;">js&#x4EE3;&#x7801;</h2>
+<pre><code class="lang-js">  <span class="hljs-keyword">var</span> btn = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&apos;btn&apos;</span>)
+  <span class="hljs-keyword">var</span> btns = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&apos;btns&apos;</span>)
+
+  btn.addEventListener(<span class="hljs-string">&apos;click&apos;</span>, trigger(real, <span class="hljs-number">1000</span>))
+  btns.addEventListener(<span class="hljs-string">&apos;click&apos;</span>, triggers(real, <span class="hljs-number">1000</span>))
+
+  <span class="hljs-comment">//1.&#x666E;&#x901A;&#x65B9;&#x6CD5;</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">real</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;1234567&apos;</span>);
+  }
+  <span class="hljs-comment">//&#x9632;&#x6296;&#x5C31;&#x662F;&#x540C;setTimeout&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5728;&#x4E00;&#x5B9A;&#x7684;&#x65F6;&#x95F4;&#x95F4;&#x9694;&#x5185;&#xFF0C;&#x5C06;&#x591A;&#x6B21;&#x51FA;&#x53D1;&#x53D8;&#x6210;&#x4E00;&#x6B21;&#x89E6;&#x53D1;</span>
+
+  <span class="hljs-comment">//2.&#x53EA;&#x6709;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x90FD;&#x4E0D;&#x70B9;&#x51FB;&#x5B9A;&#x65F6;&#x5668;&#x624D;&#x80FD;&#x5230;&#x8FBE;&#x6761;&#x4EF6;&#x5E76;&#x6267;&#x884C;&#x4E8B;&#x4EF6;&#x51FD;&#x6570;</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">trigger</span>(<span class="hljs-params">fn, delay</span>) </span>{
+    <span class="hljs-keyword">var</span> time = <span class="hljs-literal">null</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">if</span> (time) {
+        <span class="hljs-built_in">console</span>.log(time);
+        clearTimeout(time)
+      }
+
+      time = setTimeout(() =&gt; {
+        fn()
+      }, delay)
     }
- }
+  }
+
+  <span class="hljs-comment">//3.&#x901A;&#x8FC7;setTimeout&#x7684;&#x65B9;&#x5F0F;&#x7B2C;&#x4E00;&#x6B21;&#x4F1A;&#x6267;&#x884C;&#xFF0C;&#x540E;&#x9762;&#x4E0D;&#x6267;&#x884C;</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">trigger</span>(<span class="hljs-params">fn, delay</span>) </span>{
+    <span class="hljs-keyword">var</span> time = <span class="hljs-literal">null</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> firstClick = !time
+
+      <span class="hljs-keyword">if</span>(firstClick) {
+        fn()
+      }
+
+      <span class="hljs-keyword">if</span>(time) {
+        clearTimeout(time)
+      }
+
+      time = setTimeout(() =&gt; {
+        time = <span class="hljs-literal">null</span>
+      },delay)
+    }
+  }
+
+  <span class="hljs-comment">//4.&#x8282;&#x6D41;&#xFF0C;&#x4FDD;&#x8BC1;&#x5728;&#x89C4;&#x5B9A;&#x65F6;&#x95F4;&#x5185;&#x6267;&#x884C;&#x4E00;&#x6B21;&#x6267;&#x884C;&#x51FD;&#x6570;</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">triggers</span>(<span class="hljs-params">fn, delay</span>) </span>{
+    <span class="hljs-keyword">var</span> flag = <span class="hljs-literal">true</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">if</span>(flag) {
+        setTimeout(() =&gt; {
+          fn()
+          flag = <span class="hljs-literal">true</span>
+        }, delay)
+      }
+
+      flag = <span class="hljs-literal">false</span>
+    }
+  }
+
+  <span class="hljs-comment">//5.&#x4F7F;&#x7528;&#x65F6;&#x95F4;&#x6233;&#x7684;&#x65B9;&#x5F0F;&#x5B9E;&#x73B0;&#x8282;&#x6D41;</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">trigger</span>(<span class="hljs-params">fn, delay</span>) </span>{
+    <span class="hljs-keyword">var</span> bef = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">fn, delay</span>) </span>{
+      <span class="hljs-keyword">var</span> now = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime() 
+
+      <span class="hljs-keyword">if</span>(now - bef &gt; delay) {
+        fn()
+        bef = now
+      }
+    }
+  }
 </code></pre>
 
                                 
@@ -451,12 +493,12 @@ a.getInfo.bind(b)(<span class="hljs-string">&apos;&#x5973;&apos;</span>,<span cl
 
             
                 
-                <a href="6.Null和undefined的区别.html" class="navigation navigation-prev " aria-label="Previous page: 6.Null和undefined的区别">
+                <a href="7.call、bind、apply的区别.html" class="navigation navigation-prev " aria-label="Previous page: 7.call、bind、apply的区别">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="8.防抖和节流.html" class="navigation navigation-next " aria-label="Next page: 8.防抖和节流">
+                <a href="9.深拷贝、浅拷贝的区别？如何实现深拷贝和浅拷贝？.html" class="navigation navigation-next " aria-label="Next page: 9.深拷贝、浅拷贝的区别？如何实现深拷贝和浅拷贝？">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -467,7 +509,7 @@ a.getInfo.bind(b)(<span class="hljs-string">&apos;&#x5973;&apos;</span>,<span cl
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"7.call、bind、apply的区别","level":"1.8","depth":1,"next":{"title":"8.防抖和节流","level":"1.9","depth":1,"path":"book/8.防抖和节流.md","ref":"book/8.防抖和节流.md","articles":[]},"previous":{"title":"6.Null和undefined的区别","level":"1.7","depth":1,"path":"book/6.Null和undefined的区别.md","ref":"book/6.Null和undefined的区别.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"book/7.call、bind、apply的区别.md","mtime":"2022-08-30T09:09:55.513Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2022-09-04T12:02:00.381Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"8.防抖和节流","level":"1.9","depth":1,"next":{"title":"9.深拷贝、浅拷贝的区别？如何实现深拷贝和浅拷贝？","level":"1.10","depth":1,"path":"book/9.深拷贝、浅拷贝的区别？如何实现深拷贝和浅拷贝？.md","ref":"book/9.深拷贝、浅拷贝的区别？如何实现深拷贝和浅拷贝？.md","articles":[]},"previous":{"title":"7.call、bind、apply的区别","level":"1.8","depth":1,"path":"book/7.call、bind、apply的区别.md","ref":"book/7.call、bind、apply的区别.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"book/8.防抖和节流.md","mtime":"2022-08-30T08:27:35.325Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2022-09-04T12:02:00.381Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
